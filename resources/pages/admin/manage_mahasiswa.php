@@ -4,8 +4,10 @@ if (isset($_POST["tambahMahasiswa"])) {
     $npm = $_POST['npm'];
     $firstName = $_POST['first_name'];
     $lastName = $_POST['last_name'];
-    $phoneNo = $_POST['phoneNo'];
+    $phone_no = $_POST['phone_no'];
     $email = $_POST['email'];
+    $fakultas = $_POST['id_fakultas'];
+    $kelas = $_POST['id_kelas'];
     $created_at = date("Y-m-d");
 
     $image = []; // Corrected variable name
@@ -40,18 +42,20 @@ if (isset($_POST["tambahMahasiswa"])) {
     } else {
         $insertQuery = $pdo->prepare("
         INSERT INTO mahasiswa
-        (npm, first_name, last_name, phoneNo, email, images, created_at)  
+        (npm, first_name, last_name, phone_no, email, images, id_fakultas, id_kelas, created_at)  
         VALUES 
-        (:npm, :first_name, :last_name, :phoneNo, :email, :images, :created_at)
+        (:npm, :first_name, :last_name, :phone_no, :email, :images, :id_fakultas, :id_kelas, :created_at)
     ");
 
         $insertQuery->execute([
             ":npm" => $npm,
             ":first_name" => $firstName,
             ":last_name" => $lastName,
-            ":phoneNo" => $phoneNo,
+            ":phone_no" => $phone_no,
             ":email" => $email,
             ":images" => $imagesJson,
+            "id_fakultas" => $fakultas,
+            "id_kelas" => $kelas,
             ":created_at" => $created_at,
         ]);
 
@@ -67,6 +71,7 @@ if (isset($_POST["tambahMahasiswa"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Mahasiswa</title>
+    <script src="resources/assets/javascript/admin.js"></script>
 </head>
 
 <body>
@@ -96,8 +101,8 @@ if (isset($_POST["tambahMahasiswa"])) {
                         class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                 </div>
                 <div>
-                    <label for="phoneNo" class="block text-sm font-medium text-gray-700">Phone Number:</label>
-                    <input type="text" id="phoneNo" name="phoneNo" required
+                    <label for="phone_no" class="block text-sm font-medium text-gray-700">Phone Number:</label>
+                    <input type="text" id="phone_no" name="phone_no" required
                         class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                 </div>
                 <div>
@@ -105,6 +110,24 @@ if (isset($_POST["tambahMahasiswa"])) {
                     <input type="email" id="email" name="email" required
                         class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                 </div>
+                <select required name="id_fakultas">
+                    <option value="" selected>Pilih Fakultas</option>
+                    <?php
+                    $nama_fakultas = fetch("SELECT * FROM fakultas");
+                    foreach ($nama_fakultas as $fakultas) {
+                        echo '<option value="' . $fakultas["id_fakultas"] . '">' . $fakultas["nama_fakultas"] . '</option>';
+                    }
+                    ?>
+                </select>
+                <select required name="id_kelas">
+                    <option value="" selected>Pilih Kelas</option>
+                    <?php
+                    $nama_kelas = fetch("SELECT * FROM kelas");
+                    foreach ($nama_kelas as $kelas) {
+                        echo '<option value="' . $kelas["id_kelas"] . '">' . $kelas["nama_kelas"] . '</option>';
+                    }
+                    ?>
+                </select>
                 <!-- Camera and Results Section -->
                 <div class="mt-6">
                     <div class="camera-section">
@@ -136,13 +159,15 @@ if (isset($_POST["tambahMahasiswa"])) {
                 </div>
             </form>
 
-            <!-- Tabel Dosen -->
+            <!-- Tabel Mahasiswa -->
             <div class="mt-8">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="py-3 px-6">NPM</th>
                             <th scope="col" class="py-3 px-6">Nama</th>
+                            <th scope="col" class="py-3 px-6">Kelas</th>
+                            <th scope="col" class="py-3 px-6">Fakultas</th>
                             <th scope="col" class="py-3 px-6">NO Telepon</th>
                             <th scope="col" class="py-3 px-6">Email</th>
                             <th scope="col" class="py-3 px-6">Created At</th>
@@ -151,17 +176,22 @@ if (isset($_POST["tambahMahasiswa"])) {
                     </thead>
                     <tbody>
                         <?php
-                        $sql = "SELECT * FROM mahasiswa";
+                        $sql = "SELECT m.npm, m.first_name, m.last_name, m.phone_no, m.email, m.created_at, f.id_fakultas, f.nama_fakultas, k.id_kelas, k.nama_kelas
+                        FROM mahasiswa m
+                        INNER JOIN fakultas f ON m.id_fakultas = f.id_fakultas
+                        INNER JOIN kelas k ON m.id_kelas = k.id_kelas";
                         $result = fetch($sql);
                         if ($result) {
                             foreach ($result as $mahasiswa) {
-                                echo "<tr id='mahasiswa{$mahasiswa["id"]}'>";
+                                echo "<tr id='mahasiswa{$mahasiswa["npm"]}'>";
                                 echo "<td class='py-3 px-6'>" . $mahasiswa["npm"] . "</td>";
                                 echo "<td class='py-3 px-6'>" . $mahasiswa["first_name"] . " " . $mahasiswa["last_name"] . "</td>";
-                                echo "<td class='py-3 px-6'>" . $mahasiswa["phoneNo"] . "</td>";
+                                echo "<td class='py-3 px-6'>" . $mahasiswa["nama_kelas"] . "</td>";
+                                echo "<td class='py-3 px-6'>" . $mahasiswa["nama_fakultas"] . "</td>";
+                                echo "<td class='py-3 px-6'>" . $mahasiswa["phone_no"] . "</td>";
                                 echo "<td class='py-3 px-6'>" . $mahasiswa["email"] . "</td>";
                                 echo "<td class='py-3 px-6'>" . $mahasiswa["created_at"] . "</td>";
-                                echo "<td class='py-3 px-6'><span><i class='ri-delete-bin-line delete' data-id='{$mahasiswa["id"]}' data-name='mahasiswa'></i></span></td>";
+                                echo "<td class='py-3 px-6'><span><i class='ri-delete-bin-line delete' data-id='{$mahasiswa["npm"]}' data-name='mahasiswa'></i></span></td>";
                                 echo "</tr>";
                             }
                         } else {

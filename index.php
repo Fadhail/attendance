@@ -38,7 +38,6 @@ if ($logged_in) {
   <link rel="stylesheet" href="resources/assets/css/output.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-  <script src="resources/assets/javascript/admin.js"></script>
 </head>
 
 <body>
