@@ -58,7 +58,7 @@ if (isset($_SESSION['message'])) {
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script>
         function toggleForm() {
-            const form = document.getElementById('addDosenForm');
+            const form = document.getElementById('tambahDosen');
             form.classList.toggle('hidden');
         }
     </script>
@@ -71,7 +71,7 @@ if (isset($_SESSION['message'])) {
             <button onclick="toggleForm()"
                 class="mb-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Add
                 New Dosen</button>
-            <form id="addDosenForm" method="POST" action="" class="space-y-6 hidden">
+            <form id="tambahDosen" method="POST" action="" class="space-y-6 hidden">
                 <h2 class="text-2xl font-semibold text-gray-700 mb-4">Add New Dosen</h2>
                 <div>
                     <label for="nidn" class="block text-sm font-medium text-gray-700">NIDN:</label>

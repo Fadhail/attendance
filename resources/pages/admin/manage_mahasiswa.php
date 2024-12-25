@@ -1,3 +1,65 @@
+<?php
+
+if (isset($_POST["tambahMahasiswa"])) {
+    $npm = $_POST['npm'];
+    $firstName = $_POST['first_name'];
+    $lastName = $_POST['last_name'];
+    $phoneNo = $_POST['phoneNo'];
+    $email = $_POST['email'];
+    $created_at = date("Y-m-d");
+
+    $image = []; // Corrected variable name
+
+    // Save images
+    $folderPath = "resources/labels/{$npm}/";
+    if (!file_exists($folderPath)) {
+        mkdir($folderPath, 0777, true);
+    }
+
+    for ($i = 1; $i <= 5; $i++) {
+        if (isset($_POST["capturedImage$i"])) {
+            $base64Data = explode(',', $_POST["capturedImage$i"])[1];
+            $imageData = base64_decode($base64Data);
+            $fileName = "{$npm}_image{$i}.png";
+            $labelName = "{$i}_{$npm}.png";
+            file_put_contents("{$folderPath}{$labelName}", $imageData);
+            $image[] = $labelName;
+        }
+    }
+
+    // Convert image file names to JSON
+    $imagesJson = json_encode($image);
+
+    // Cek Duplikasi NPM
+    $query = $pdo->prepare("SELECT * FROM mahasiswa WHERE npm = :npm");
+    $query->execute(['npm' => $npm]);
+    $count = $query->fetchColumn();
+
+    if ($count > 0) {
+        $_SESSION['message'] = "Mahasiswa dengan NPM $npm sudah terdaftar!";
+    } else {
+        $insertQuery = $pdo->prepare("
+        INSERT INTO mahasiswa
+        (npm, first_name, last_name, phoneNo, email, images, created_at)  
+        VALUES 
+        (:npm, :first_name, :last_name, :phoneNo, :email, :images, :created_at)
+    ");
+
+        $insertQuery->execute([
+            ":npm" => $npm,
+            ":first_name" => $firstName,
+            ":last_name" => $lastName,
+            ":phoneNo" => $phoneNo,
+            ":email" => $email,
+            ":images" => $imagesJson,
+            ":created_at" => $created_at,
+        ]);
+
+        $_SESSION['message'] = "Mahasiswa berhasil ditambahkan!";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,11 +71,107 @@
 
 <body>
     <?php include 'includes/sidebar.php'; ?>
+
     <div class="p-4 sm:ml-64">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            <h1>ini manage mahasiswa</h1>
+        <div class="overflow-x-auto relative shadow-md sm:rounded-lg bg-white p-6 rounded-lg">
+            <button onclick="toggleForm()"
+                class="mb-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Tambahkan
+                Mahasiswa</button>
+            <form id="tambahMahasiswa" method="POST" enctype="multipart/form-data" class="space-y-6 hidden">
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4">Add New Mahasiswa</h2>
+                <!-- Existing fields -->
+                <div>
+                    <label for="npm" class="block text-sm font-medium text-gray-700">NPM:</label>
+                    <input type="text" id="npm" name="npm" required
+                        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div>
+                    <label for="first_name" class="block text-sm font-medium text-gray-700">First Name:</label>
+                    <input type="text" id="first_name" name="first_name" required
+                        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div>
+                    <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name:</label>
+                    <input type="text" id="last_name" name="last_name" required
+                        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div>
+                    <label for="phoneNo" class="block text-sm font-medium text-gray-700">Phone Number:</label>
+                    <input type="text" id="phoneNo" name="phoneNo" required
+                        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
+                    <input type="email" id="email" name="email" required
+                        class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <!-- Camera and Results Section -->
+                <div class="mt-6">
+                    <div class="camera-section">
+                        <video id="camera" autoplay class="w-sm rounded-md border shadow"></video>
+                        <canvas id="canvas" style="display: none;"></canvas>
+                        <button type="button" onclick="captureImage()"
+                            class="mt-2 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Capture
+                            Image</button>
+                    </div>
+                    <div class="results-section mt-4">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Captured Images:</h3>
+                        <!-- Flex container to display captured images horizontally -->
+                        <div id="images" class="flex gap-2 overflow-x-auto">
+                            <!-- Images will be dynamically added here -->
+                        </div>
+                        <!-- Hidden inputs for storing captured images -->
+                        <input type="hidden" name="capturedImage1" id="capturedImage1">
+                        <input type="hidden" name="capturedImage2" id="capturedImage2">
+                        <input type="hidden" name="capturedImage3" id="capturedImage3">
+                        <input type="hidden" name="capturedImage4" id="capturedImage4">
+                        <input type="hidden" name="capturedImage5" id="capturedImage5">
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" name="tambahMahasiswa" id="submitBtn" disabled
+                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">Save
+                        Mahasiswa</button>
+                </div>
+            </form>
+
+            <!-- Tabel Dosen -->
+            <div class="mt-8">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="py-3 px-6">NPM</th>
+                            <th scope="col" class="py-3 px-6">Nama</th>
+                            <th scope="col" class="py-3 px-6">NO Telepon</th>
+                            <th scope="col" class="py-3 px-6">Email</th>
+                            <th scope="col" class="py-3 px-6">Created At</th>
+                            <th scope="col" class="py-3 px-6">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $sql = "SELECT * FROM mahasiswa";
+                        $result = fetch($sql);
+                        if ($result) {
+                            foreach ($result as $mahasiswa) {
+                                echo "<tr id='mahasiswa{$mahasiswa["id"]}'>";
+                                echo "<td class='py-3 px-6'>" . $mahasiswa["npm"] . "</td>";
+                                echo "<td class='py-3 px-6'>" . $mahasiswa["first_name"] . " " . $mahasiswa["last_name"] . "</td>";
+                                echo "<td class='py-3 px-6'>" . $mahasiswa["phoneNo"] . "</td>";
+                                echo "<td class='py-3 px-6'>" . $mahasiswa["email"] . "</td>";
+                                echo "<td class='py-3 px-6'>" . $mahasiswa["created_at"] . "</td>";
+                                echo "<td class='py-3 px-6'><span><i class='ri-delete-bin-line delete' data-id='{$mahasiswa["id"]}' data-name='mahasiswa'></i></span></td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='6' class='text-center py-3 px-6'>No records found</td></tr>";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 </body>
 
 </html>
