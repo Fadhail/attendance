@@ -55,12 +55,9 @@ CREATE TABLE mahasiswa (
 );
 
 -- Tabel presensi
-CREATE TABLE presensi (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    npm INT NOT NULL,
-    id_kelas INT NOT NULL,
-    status ENUM('Hadir', 'Tidak Hadir', 'Izin') NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (npm) REFERENCES mahasiswa(npm) ON DELETE CASCADE,
-    FOREIGN KEY (id_kelas) REFERENCES kelas(id_kelas) ON DELETE CASCADE
-);
+    CREATE TABLE presensi (
+        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        npm INT NOT NULL,
+        status NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    );

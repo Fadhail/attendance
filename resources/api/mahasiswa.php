@@ -4,7 +4,7 @@ require_once "../../database/koneksi.php";
 require_once "../functions/functions.php";
 
 
-$sql = "SELECT npm FROM mahasiswa";
+$sql = "SELECT npm status FROM mahasiswa";
 
 $result = fetch($sql);
 
