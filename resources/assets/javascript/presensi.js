@@ -1,37 +1,54 @@
-document.addEventListener("DOMContentLoaded", async () => {
+var labels = [];
+let detectedFaces = [];
+let sendingData = false;
+
+function updateTable() {
+  var selectedFakultas = document.getElementById("fakultas").value;
+  var selectedKelas = document.getElementById("kelas").value;
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "resources/pages/dosen/validate.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        try {
+          var response = JSON.parse(xhr.responseText);
+          if (response.status === "success") {
+            labels = response.data;
+
+            if (selectedFakultas && selectedKelas) {
+              updateOtherElements();
+            }
+            document.getElementById("tabelMahasiswa").innerHTML = response.html;
+          }
+        } catch (e) {
+          console.error("Failed to parse JSON:", e);
+        }
+      } else {
+        console.error("Error:", xhr.statusText);
+      }
+    }
+  };
+  xhr.send("id_fakultas=" + encodeURIComponent(selectedFakultas) + "&id_kelas=" + encodeURIComponent(selectedKelas));
+}
+
+function markAttendance(detectedFaces) {
+  document.querySelectorAll("#tabelMahasiswa tr").forEach((row) => {
+    const npm = row.cells[0].innerText.trim();
+    if (detectedFaces.includes(npm)) {
+      row.cells[4].innerText = "present";
+    }
+  });
+}
+
+function updateOtherElements() {
   const video = document.getElementById("video");
-  const videoContainer = document.querySelector(".videoContainer");
+  const videoContainer = document.querySelector(".video-container");
   const startButton = document.getElementById("startButton");
-  let cameraStarted = false;
+  let webcamStarted = false;
   let modelsLoaded = false;
 
-  const labels = await fetchDataMahasiswa();
-  const dataMahasiswa = [];
-  labels.forEach((label) => {
-    dataMahasiswa.push({
-      npm: label,
-      status: "alpha",
-      oldStatus: "alpha",
-    });
-  });
-
-  setInterval(() => {
-    dataMahasiswa.forEach((mahasiswa, idx) => {
-      if (mahasiswa.oldStatus != mahasiswa.status) {
-        const data = {
-          npm: mahasiswa.npm,
-          status: mahasiswa.status,
-        };
-        sendData(data);
-        dataMahasiswa[idx].oldStatus = mahasiswa.status;
-      }
-    });
-  }, 10);
-
-  // Store recognized students to avoid duplicate entries
-  const markedAttendance = new Set();
-
-  // Load face-api models
   Promise.all([
     faceapi.nets.ssdMobilenetv1.loadFromUri("models"),
     faceapi.nets.faceRecognitionNet.loadFromUri("models"),
@@ -39,21 +56,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   ])
     .then(() => {
       modelsLoaded = true;
-      console.log("Models berhasil dimuat");
+      console.log("models loaded successfully");
     })
     .catch(() => {
-      alert("Models gagal dimuat");
+      alert("models not loaded, please check your model folder location");
     });
 
   startButton.addEventListener("click", async () => {
     videoContainer.style.display = "flex";
-    if (!cameraStarted && modelsLoaded) {
-      startCamera();
-      cameraStarted = true;
+    if (!webcamStarted && modelsLoaded) {
+      startWebcam();
+      webcamStarted = true;
     }
   });
 
-  function startCamera() {
+  function startWebcam() {
     navigator.mediaDevices
       .getUserMedia({
         video: true,
@@ -61,13 +78,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       })
       .then((stream) => {
         video.srcObject = stream;
+        videoStream = stream;
       })
       .catch((error) => {
-        console.error("Error accessing camera:", error);
+        console.error(error);
       });
   }
 
-  async function getLabels() {
+  async function getLabeledFaceDescriptions() {
     const labeledDescriptors = [];
 
     for (const label of labels) {
@@ -75,30 +93,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       for (let i = 1; i <= 5; i++) {
         try {
-          const imgPath = `resources/labels/${label}/${i}_${label}.png`;
-          console.log("Fetching image from path:", imgPath);
-
-          const img = await faceapi.fetchImage(imgPath);
-
-          const detections = await faceapi
-            .detectSingleFace(img)
-            .withFaceLandmarks()
-            .withFaceDescriptor();
+          const npm = String(label);
+          const img = await faceapi.fetchImage(`resources/labels/${npm}/${i}_${npm}.png`);
+          const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
 
           if (detections) {
             descriptions.push(detections.descriptor);
           } else {
-            console.warn(`Face not detected: ${imgPath}`);
+            console.log(`${npm}/${i}_${npm}.png tidak terdeteksi`);
           }
         } catch (error) {
-          console.error(`Error processing ${label}/${i}_${label}.png:`, error);
+          console.error(`${npm}/${i}_${npm}.png`, error);
         }
       }
 
       if (descriptions.length > 0) {
-        labeledDescriptors.push(
-          new faceapi.LabeledFaceDescriptors(label, descriptions)
-        );
+        labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(String(label), descriptions));
       }
     }
 
@@ -106,7 +116,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   video.addEventListener("play", async () => {
-    const labeledFaceDescriptors = await getLabels();
+    const labeledFaceDescriptors = await getLabeledFaceDescriptions();
+
+    if (labeledFaceDescriptors.length === 0) {
+      return;
+    }
+
     const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors);
 
     const canvas = faceapi.createCanvasFromMedia(video);
@@ -117,78 +132,104 @@ document.addEventListener("DOMContentLoaded", async () => {
     faceapi.matchDimensions(canvas, displaySize);
 
     setInterval(async () => {
-      const detections = await faceapi
-        .detectAllFaces(video)
-        .withFaceLandmarks()
-        .withFaceDescriptors();
+      const detections = await faceapi.detectAllFaces(video).withFaceLandmarks().withFaceDescriptors();
 
       const resizedDetections = faceapi.resizeResults(detections, displaySize);
+      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+      faceapi.draw.drawDetections(canvas, resizedDetections);
+      faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
 
-      canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-
-      const results = resizedDetections.map((d) => {
-        return faceMatcher.findBestMatch(d.descriptor);
-      });
-
-      const newRecognized = results.map((result) => {
-        return result.label;
-      });
-
-      if (newRecognized.length > 0) {
-        markAttendance(newRecognized);
-      }
+      const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor));
+      detectedFaces = results.map((result) => result.label);
+      markAttendance(detectedFaces);
 
       results.forEach((result, i) => {
-        const data = dataMahasiswa.find(
-          (mahasiswa) => mahasiswa.npm == result._label
-        );
         const box = resizedDetections[i].detection.box;
-        const info = data ? `${data.npm} | ${data.status}` : result.toString();
-        const drawBox = new faceapi.draw.DrawBox(box, {
-          label: info,
-        });
+        const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() });
         drawBox.draw(canvas);
       });
     }, 100);
   });
+}
 
-  function markAttendance(detectedFaces) {
-    dataMahasiswa.forEach((mahasiswa, idx) => {
-      if (detectedFaces.includes(mahasiswa.npm)) {
-        dataMahasiswa[idx].status = "hadir";
+function sendAttendanceDataToServer() {
+  const attendanceData = [];
+
+  document.querySelectorAll("#tabelMahasiswa tr").forEach((row, index) => {
+    if (index === 0) return;
+    const npm = row.cells[0].innerText.trim();
+    const id_fakultas = row.cells[2].innerText.trim();
+    const id_kelas = row.cells[3].innerText.trim();
+    const status = row.cells[4].innerText.trim();
+
+    attendanceData.push({ npm, id_fakultas, id_kelas, status });
+  });
+
+  console.log("Attendance Data:", attendanceData);
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "resources/pages/dosen/sendData.php", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        try {
+          const response = JSON.parse(xhr.responseText);
+
+          if (response.status === "success") {
+            showMessage(response.message || "Kehadiran berhasil dicatat.");
+          } else {
+            showMessage(response.message || "Gagal mencatat kehadiran.");
+          }
+        } catch (e) {
+          showMessage("Error: Failed to parse the response from the server.");
+        }
+      } else {
+        showMessage("Error: Unable to record attendance. HTTP Status: " + xhr.status);
+        console.error("HTTP Error", xhr.status, xhr.statusText);
       }
-    });
-  }
+    }
+  };
 
-  function sendData(data) {
-    fetch("resources/api/sendData.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ recognizedData: data }),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log("Data sent successfully:", result);
-      })
-      .catch((error) => {
-        console.error("Error sending data:", error);
-      });
+  xhr.send(JSON.stringify(attendanceData));
+}
+
+function showMessage(message) {
+  var messageDiv = document.getElementById("messageDiv");
+  messageDiv.style.display = "block";
+  messageDiv.innerHTML = message;
+  console.log(message);
+  messageDiv.style.opacity = 1;
+  setTimeout(function () {
+    messageDiv.style.opacity = 0;
+  }, 5000);
+}
+
+function stopWebcam() {
+  if (videoStream) {
+    const tracks = videoStream.getTracks();
+
+    tracks.forEach((track) => {
+      track.stop();
+    });
+
+    video.srcObject = null;
+    videoStream = null;
   }
+}
+
+function resetForm() {
+  document.getElementById('selectForm').reset();
+  document.getElementById('tabelMahasiswa').innerHTML = "";
+};
+
+document.getElementById("endAttendance").addEventListener("click", function () {
+  sendAttendanceDataToServer();
+  resetForm();
+  const videoContainer = document.querySelector(".video-container");
+  videoContainer.style.display = "none";
+  stopWebcam();
 });
 
-function fetchDataMahasiswa() {
-  return new Promise((resolve, reject) => {
-    const json = fetch("resources/api/mahasiswa.php")
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-        const labels = json.data.map((mahasiswa) =>
-          mahasiswa.status.toString()
-        );
-        resolve(labels);
-      })
-      .catch((err) => resolve(err.message));
-  });
-}
+
