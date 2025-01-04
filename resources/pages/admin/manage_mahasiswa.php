@@ -133,17 +133,14 @@ if (isset($_POST["tambahMahasiswa"])) {
                     <div class="camera-section">
                         <video id="camera" autoplay class="w-sm rounded-md border shadow"></video>
                         <canvas id="canvas" style="display: none;"></canvas>
+                        <p class="text-gray-700 mb-2 mt-2"><i>*Ambil 5 Gambar</i></p>
                         <button type="button" onclick="captureImage()"
-                            class="mt-2 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Capture
-                            Image</button>
+                            class="mt-2 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Ambil Gambar</button>
                     </div>
                     <div class="results-section mt-4">
-                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Captured Images:</h3>
-                        <!-- Flex container to display captured images horizontally -->
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Hasil :</h3>
                         <div id="images" class="flex gap-2 overflow-x-auto">
-                            <!-- Images will be dynamically added here -->
                         </div>
-                        <!-- Hidden inputs for storing captured images -->
                         <input type="hidden" name="capturedImage1" id="capturedImage1">
                         <input type="hidden" name="capturedImage2" id="capturedImage2">
                         <input type="hidden" name="capturedImage3" id="capturedImage3">
