@@ -96,9 +96,10 @@ if (isset($_POST["addKelas"])) {
                                 echo "<td class='py-3 px-6'>" . htmlspecialchars($kelas["id_kelas"]) . "</td>";
                                 echo "<td class='py-3 px-6'>" . htmlspecialchars($kelas["nama_kelas"]) . "</td>";
                                 echo "<td class='py-3 px-6'>" . htmlspecialchars($kelas["first_name"] . " " . $kelas["last_name"]) . "</td>";
+                                echo "<td class='py-3 px-6'><a href='resources/pages/admin/update_kelas.php?id={$kelas["id_kelas"]}'>Edit</a></td>";
                                 echo "<td class='py-3 px-6'><span><i class='ri-delete-bin-line delete' data-id='{$kelas["id_kelas"]}' data-name='kelas'></i></span></td>";
                                 echo "</tr>";
-                            }
+                            }                            
                         } else {
                             echo "<tr><td colspan='6' class='text-center py-3 px-6'>No records found</td></tr>";
                         }
