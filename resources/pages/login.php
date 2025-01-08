@@ -112,11 +112,6 @@ function display_error($error, $is_main = false)
                         class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition duration-300 ease-in-out hover:bg-blue-700"
                         value="Sign In" name="login">
                 </div>
-
-                <!-- Forgot Password Link -->
-                <div class="text-center mt-4">
-                    <a href="#" class="text-blue-600 hover:text-blue-800">Forgot Password?</a>
-                </div>
             </form>
         </div>
     </div>

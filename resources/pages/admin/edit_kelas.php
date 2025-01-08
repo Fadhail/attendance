@@ -74,61 +74,56 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["updateKelas"])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />      
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>      
 </head>      
-<body>      
-<?php include 'includes/sidebar.php'; ?>      
-<div class="p-4 sm:ml-64">      
-    <div class="overflow-x-auto relative shadow-md sm:rounded-lg bg-white p-6 rounded-lg">      
-        <?php if (isset($_SESSION['message'])): ?>      
-            <div class="message bg-blue-100 text-blue-700 p-3 rounded mb-4">      
-                <p><?= htmlspecialchars($_SESSION['message']); ?></p>      
-            </div>      
-            <?php unset($_SESSION['message']); ?>      
-        <?php endif; ?>      
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Edit Kelas</h2>    
+   
       
-        <form id="updateKelas" method="POST" action="" class="space-y-6">      
-            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Update Kelas</h2>      
-      
-            <div>      
-                <label for="id_kelas" class="block text-sm font-medium text-gray-700">ID Kelas</label>      
-                <input type="text" id="id_kelas" name="id_kelas" value="<?= htmlspecialchars($id_kelas); ?>" required        
-                    class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">      
-            </div>      
-      
-            <div>      
-                <label for="nama_kelas" class="block text-sm font-medium text-gray-700">Nama Kelas</label>      
-                <input type="text" id="nama_kelas" name="nama_kelas" value="<?= htmlspecialchars($nama_kelas); ?>" required      
-                       class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">      
-            </div>      
-      
-            <div>      
-                <label for="id_dosen" class="block text-sm font-medium text-gray-700">Pilih Dosen</label>      
-                <select id="id_dosen" name="id_dosen" required      
+            <form id="updateKelas" method="POST" action="" class="space-y-6">      
+                <div>      
+                    <label for="id_kelas" class="block text-sm font-medium text-gray-700">ID Kelas</label>      
+                    <input type="text" id="id_kelas" name="id_kelas" value="<?= htmlspecialchars($id_kelas); ?>" required        
                         class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">      
-                    <option value="" <?= empty($id_dosen) ? 'selected' : ''; ?>>Pilih Dosen</option>      
-                    <?php      
-                    try {      
-                        $nama_dosen = $pdo->query("SELECT * FROM dosen");      
-                        foreach ($nama_dosen as $dosen) {      
-                            $selected = ($dosen["nidn"] == $id_dosen) ? 'selected' : '';      
-                            echo '<option value="' . htmlspecialchars($dosen["nidn"]) . '" ' . $selected . '>'       
-                                . htmlspecialchars($dosen["first_name"] . " " . $dosen["last_name"])       
-                                . '</option>';      
-                        }      
-                    } catch (PDOException $e) {      
-                        echo '<option value="">Error loading dosen: ' . htmlspecialchars($e->getMessage()) . '</option>';      
-                    }      
-                    ?>      
-                </select>      
-            </div>      
+                </div>      
       
-            <div>      
-                <button type="submit" name="updateKelas"      
-                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">      
-                    Update Kelas      
-                </button>      
-            </div>      
-        </form>      
+                <div>      
+                    <label for="nama_kelas" class="block text-sm font-medium text-gray-700">Nama Kelas</label>      
+                    <input type="text" id="nama_kelas" name="nama_kelas" value="<?= htmlspecialchars($nama_kelas); ?>" required      
+                           class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">      
+                </div>      
+      
+                <div>      
+                    <label for="id_dosen" class="block text-sm font-medium text-gray-700">Pilih Dosen</label>      
+                    <select id="id_dosen" name="id_dosen" required      
+                            class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">      
+                        <option value="" <?= empty($id_dosen) ? 'selected' : ''; ?>>Pilih Dosen</option>      
+                        <?php      
+                        try {      
+                            $nama_dosen = $pdo->query("SELECT * FROM dosen");      
+                            foreach ($nama_dosen as $dosen) {      
+                                $selected = ($dosen["nidn"] == $id_dosen) ? 'selected' : '';      
+                                echo '<option value="' . htmlspecialchars($dosen["nidn"]) . '" ' . $selected . '>'       
+                                    . htmlspecialchars($dosen["first_name"] . " " . $dosen["last_name"])       
+                                    . '</option>';      
+                            }      
+                        } catch (PDOException $e) {      
+                            echo '<option value="">Error loading dosen: ' . htmlspecialchars($e->getMessage()) . '</option>';      
+                        }      
+                        ?>      
+                    </select>      
+                </div>      
+      
+            <div class="flex space-x-4">
+                <button type="submit" name="updateKelas"
+                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+                    Update Kelas
+                </button>
+                <a href="../../../manage_kelas"
+                   class="w-full bg-gray-400 text-white py-2 px-4 rounded-md hover:bg-gray-500 text-center focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
+                    Kemabli
+                </a>
+            </div>    
+        </form>        
     </div>      
-</div>      
-</body>      
+</body>
 </html>      

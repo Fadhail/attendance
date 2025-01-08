@@ -48,16 +48,6 @@ if (isset($_POST["addKelas"])) {
   
 <body>  
     <?php include 'includes/sidebar.php'; ?>  
-    <?php  
-
-  
-    // Tampilkan pesan jika ada  
-    if (isset($_SESSION['message'])): ?>  
-        <div class="message bg-blue-100 text-blue-700 p-3 rounded mb-4">  
-            <p><?= htmlspecialchars($_SESSION['message']); ?></p>  
-        </div>  
-        <?php unset($_SESSION['message']); // Hapus pesan dari session setelah ditampilkan ?>  
-    <?php endif; ?> 
     <div class="p-4 sm:ml-64">  
         <div class="overflow-x-auto relative shadow-md sm:rounded-lg bg-white p-6 rounded-lg">  
             <button onclick="toggleForm()"  
@@ -117,7 +107,7 @@ if (isset($_POST["addKelas"])) {
                                 echo "<td class='py-3 px-6'>" . htmlspecialchars($kelas["id_kelas"]) . "</td>";    
                                 echo "<td class='py-3 px-6'>" . htmlspecialchars($kelas["nama_kelas"]) . "</td>";    
                                 echo "<td class='py-3 px-6'>" . htmlspecialchars($kelas["first_name"] . " " . $kelas["last_name"]) . "</td>";    
-                                echo "<td class='py-3 px-6'><a href='resources/pages/admin/update_kelas.php?id={$kelas["id_kelas"]}' class='text-blue-600 hover:underline'>Edit</a> | ";    
+                                echo "<td class='py-3 px-6'><a href='resources/pages/admin/edit_kelas.php?id={$kelas["id_kelas"]}' class='text-blue-600 hover:underline'>Edit</a> | ";    
                                 echo "<a href='resources/pages/admin/hapus_kelas.php?id={$kelas["id_kelas"]}' class='text-red-600 hover:underline' onclick=\"return confirmDelete();\">Hapus</a>";    
                                 echo "</td>";    
                                 echo "</tr>";    

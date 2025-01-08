@@ -41,60 +41,7 @@ if (isset($_POST["addLecture"])) {
         $_SESSION['message'] = "Data salah";  
     }  
 }  
-  
-// Handle edit and delete actions  
-if (isset($_POST["editLecture"])) {  
-    $nidn = htmlspecialchars(trim($_POST["nidn"]));  
-    $firstName = htmlspecialchars(trim($_POST["first_name"]));  
-    $lastName = htmlspecialchars(trim($_POST["last_name"]));  
-    $phone_no = htmlspecialchars(trim($_POST["phone_no"]));  
-    $email = filter_var(trim($_POST["email"]), FILTER_VALIDATE_EMAIL);  
-  
-    if ($nidn && $firstName && $lastName && $phone_no && $email) {  
-        try {  
-            $updateQuery = $pdo->prepare("  
-                UPDATE dosen SET   
-                first_name = :first_name,   
-                last_name = :last_name,   
-                phone_no = :phone_no,   
-                email = :email   
-                WHERE nidn = :nidn  
-            ");  
-            $updateQuery->execute([  
-                ":first_name" => $firstName,  
-                ":last_name" => $lastName,  
-                ":phone_no" => $phone_no,  
-                ":email" => $email,  
-                ":nidn" => $nidn,  
-            ]);  
-  
-            $_SESSION['message'] = "Dosen berhasil diperbarui!";  
-        } catch (PDOException $e) {  
-            $_SESSION['message'] = "Error: " . $e->getMessage();  
-        }  
-    } else {  
-        $_SESSION['message'] = "Data tidak lengkap.";  
-    }  
-}  
-  
-if (isset($_GET["deleteNidn"])) {  
-    $nidn = htmlspecialchars(trim($_GET["deleteNidn"]));  
-  
-    try {  
-        $deleteQuery = $pdo->prepare("DELETE FROM dosen WHERE nidn = :nidn");  
-        $deleteQuery->execute([':nidn' => $nidn]);  
-  
-        $_SESSION['message'] = "Dosen berhasil dihapus!";  
-    } catch (PDOException $e) {  
-        $_SESSION['message'] = "Error: " . $e->getMessage();  
-    }  
-}  
-  
-if (isset($_SESSION['message'])) {  
-    echo $_SESSION['message'];  
-    unset($_SESSION['message']);  
-}  
-?>  
+?> 
   
 <!DOCTYPE html>  
 <html lang="en">  
@@ -188,7 +135,7 @@ if (isset($_SESSION['message'])) {
                                 echo "<td class='py-3 px-6'>" . htmlspecialchars($dosen["created_at"]) . "</td>";  
                                 echo "<td class='py-3 px-6'>";  
                                 echo "<a href='resources/pages/admin/edit_dosen.php?nidn={$dosen["nidn"]}' class='text-blue-600 hover:underline'>Edit</a> | ";  
-                                echo "<a href='?deleteNidn={$dosen["nidn"]}' class='text-red-600 hover:underline' onclick='return confirmDelete();'>Hapus</a>";  
+                                echo "<a href='resources/pages/admin/hapus_dosen.php?id={$dosen["nidn"]}' class='text-red-600 hover:underline' onclick='return confirmDelete();'>Hapus</a>";  
                                 echo "</td>";  
                                 echo "</tr>";  
                             }  
