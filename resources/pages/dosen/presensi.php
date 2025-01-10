@@ -89,9 +89,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
 
                     <!-- Video Container -->
-                    <div class="video-container hidden mt-6">
-                        <video id="video" width="600" height="450" autoplay class="block mx-auto"></video>
-                        <canvas id="overlay" class="block mx-auto"></canvas>
+                    <div class="video-container hidden mt-6 flex justify-center">
+                        <div>
+                            <video id="video" width="600" height="450" autoplay class="block mx-auto z-0"></video>
+                            <canvas id="overlay"></canvas>
+                        </div>
                     </div>
 
                     <!-- Table Mahasiswa -->

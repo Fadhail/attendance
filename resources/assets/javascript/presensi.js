@@ -37,7 +37,7 @@ function markAttendance(detectedFaces) {
   document.querySelectorAll("#tabelMahasiswa tr").forEach((row) => {
     const npm = row.cells[0].innerText.trim();
     if (detectedFaces.includes(npm)) {
-      row.cells[4].innerText = "present";
+      row.cells[4].innerText = "Hadir";
     }
   });
 }
