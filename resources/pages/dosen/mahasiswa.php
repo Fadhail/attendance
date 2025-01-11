@@ -41,6 +41,7 @@
                             <th scope="col" class="py-3 px-6">Nama</th>
                             <th scope="col" class="py-3 px-6">NO Telepon</th>
                             <th scope="col" class="py-3 px-6">Email</th>
+                            <th scope="col" class="py-3 px-6">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,6 +62,9 @@
                                     echo "<td class='py-3 px-6'>" . $mahasiswa["first_name"] . " " . $mahasiswa["last_name"] . "</td>";
                                     echo "<td class='py-3 px-6'>" . $mahasiswa["phone_no"] . "</td>";
                                     echo "<td class='py-3 px-6'>" . $mahasiswa["email"] . "</td>";
+                                    echo "<td class='py-3 px-6'>";
+                                    echo "<a href='resources/pages/dosen/detail_mahasiswa.php?npm={$mahasiswa["npm"]}' class='text-blue-600 hover:underline'>Detail</a>";
+                                    echo "</td>";
                                     echo "<td class='py-3 px-6'><span><i class='ri-delete-bin-line delete' data-id='{$mahasiswa["npm"]}' data-name='mahasiswa'></i></span></td>";
                                     echo "</tr>";
                                 }
