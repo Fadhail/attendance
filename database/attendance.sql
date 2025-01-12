@@ -67,5 +67,5 @@ CREATE TABLE mahasiswa (
         id_kelas INT NOT NULL,
         status VARCHAR(50) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY (id),
+        PRIMARY KEY (id)
     );  

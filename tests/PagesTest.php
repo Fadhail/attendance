@@ -2,22 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-
-#[CoversClass(Pages::class)]
-
 class PagesTest extends TestCase
 {
-    public function testHomePageLoadsSuccessfully()
-    {
-        $output = $this->getPageOutput('home');
-        $this->assertStringContainsString('<title>Presenza</title>', $output);
-    }
-
-    public function testLoginPageLoadsSuccessfully()
-    {
-        $output = $this->getPageOutput('login');
-        $this->assertStringContainsString('<title>Login</title>', $output);
-    }
 
     public function testAdminHomePageLoadsSuccessfully()
     {

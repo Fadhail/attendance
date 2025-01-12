@@ -70,4 +70,42 @@ class FunctionsTest extends TestCase
         $this->assertCount(2, $result);
         $this->assertEquals('John Doe', $result[0]['name']);
     }
+    public function testGetFakultasEdgeCases()
+    {
+        global $pdo;
+        $pdo = $this->createMock(PDO::class);
+        $stmt = $this->createMock(PDOStatement::class);
+
+        $pdo->method('query')->willReturn($stmt);
+        $stmt->method('fetchAll')->willReturn([]);
+
+        $fakultas = getFakultas();
+        $this->assertCount(0, $fakultas);
+    }
+
+    public function testGetKelasEdgeCases()
+    {
+        global $pdo;
+        $pdo = $this->createMock(PDO::class);
+        $stmt = $this->createMock(PDOStatement::class);
+
+        $pdo->method('query')->willReturn($stmt);
+        $stmt->method('fetchAll')->willReturn([]);
+
+        $kelas = getKelas();
+        $this->assertCount(0, $kelas);
+    }
+
+    public function testFetchEdgeCases()
+    {
+        global $pdo;
+        $pdo = $this->createMock(PDO::class);
+        $stmt = $this->createMock(PDOStatement::class);
+
+        $pdo->method('query')->willReturn($stmt);
+        $stmt->method('fetchAll')->willReturn([]);
+
+        $result = fetch('SELECT * FROM non_existent_table');
+        $this->assertCount(0, $result);
+    }
 }
