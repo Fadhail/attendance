@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
+
 #[CoversClass(Index::class)]
 class IndexTest extends TestCase
 {
@@ -20,6 +21,7 @@ class IndexTest extends TestCase
         ob_start();
         include 'index.php';
         $output = ob_get_clean();
+
         $this->assertStringContainsString('<title>Login</title>', $output);
     }
 

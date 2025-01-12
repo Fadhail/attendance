@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../resources/functions/functions.php';
 
+
 #[CoversClass(Functions::class)]
 class FunctionsTest extends TestCase
 {

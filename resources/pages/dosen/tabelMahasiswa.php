@@ -28,7 +28,7 @@
                         echo "<td class='py-3 px-6'>" . $row["first_name"] . "</td>";
                         echo "<td class='py-3 px-6'>" . $id_fakultas . "</td>";
                         echo "<td class='py-3 px-6'>" . $id_kelas . "</td>";
-                        echo "<td class='py-3 px-6'>Absent</td>";
+                        echo "<td class='py-3 px-6'>Tidak Hadir</td>";
                         echo "<td class='py-3 px-6'><span><i class='ri-edit-line edit'></i><i class='ri-delete-bin-line delete'></i></span></td>";
                         echo "</tr>";
                     }
