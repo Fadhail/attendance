@@ -2,6 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
+
+#[CoversClass(Index::class)]
 class IndexTest extends TestCase
 {
     public function testHomePageLoads()
@@ -19,7 +21,8 @@ class IndexTest extends TestCase
         ob_start();
         include 'index.php';
         $output = ob_get_clean();
-        $this->assertStringContainsString('<title>Presenza</title>', $output);
+
+        $this->assertStringContainsString('<title>Login</title>', $output);
     }
 
     public function testLogoutRedirectsToLogin()

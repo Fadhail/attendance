@@ -2,6 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 
+
+#[CoversClass(Pages::class)]
+
 class PagesTest extends TestCase
 {
     public function testHomePageLoadsSuccessfully()

@@ -2,6 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
+
+#[CoversClass(Database::class)]
 class DatabaseTest extends TestCase
 {
     private $pdo;
@@ -26,3 +28,4 @@ class DatabaseTest extends TestCase
         $this->assertInstanceOf(PDO::class, $this->pdo);
     }
 }
+
