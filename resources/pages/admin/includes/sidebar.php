@@ -15,7 +15,9 @@
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 flex flex-col justify-between">
         <div>
             <a href="home" class="flex items-center ps-2.5 mb-5">
-            <span class="self-center text-2xl font-bold text-gray-800 dark:text-white transition duration-300 hover:text-blue-600 dark:hover:text-blue-400">PRESENZA</span>
+                <span class="self-center text-2xl font-bold text-gray-800 dark:text-white transition duration-300 hover:text-blue-600 dark:hover:text-blue-400">PRESENZA</span>
+            </a>
+
             <ul class="space-y-2 font-medium">
                 <li>
                     <a href="home"
