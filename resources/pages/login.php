@@ -83,8 +83,8 @@ function display_error($error, $is_main = false)
                 <div class="mb-6">
                     <select name="role" required
                         class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700">
-                        <option value="">Pilih Pengguna</option>
-                        <option value="dosen">Dosen</option>
+                        <option value="">Select Role</option>
+                        <option value="dosen">Lecture</option>
                         <option value="admin">Admin</option>
                     </select>
                     <?php display_error('role'); ?>

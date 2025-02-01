@@ -3,10 +3,11 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="py-3 px-6">NPM</th>
-                <th scope="col" class="py-3 px-6">Nama</th>
-                <th scope="col" class="py-3 px-6">ID Fakultas</th>
-                <th scope="col" class="py-3 px-6">ID Kelas</th>
+                <th scope="col" class="py-3 px-6">Name</th>
+                <th scope="col" class="py-3 px-6">Faculty ID</th>
+                <th scope="col" class="py-3 px-6">Class ID</th>
                 <th scope="col" class="py-3 px-6">Status</th>
+                <th scope="col" class="py-3 px-6">Date</th>
                 <th scope="col" class="py-3 px-6">Action</th>
             </tr>
         </thead>
@@ -29,6 +30,7 @@
                         echo "<td class='py-3 px-6'>" . $id_fakultas . "</td>";
                         echo "<td class='py-3 px-6'>" . $id_kelas . "</td>";
                         echo "<td class='py-3 px-6'>Tidak Hadir</td>";
+                        echo "<td class='py-3 px-6'>" . $date . "</td>";
                         echo "<td class='py-3 px-6'><span><i class='ri-edit-line edit'></i><i class='ri-delete-bin-line delete'></i></span></td>";
                         echo "</tr>";
                     }

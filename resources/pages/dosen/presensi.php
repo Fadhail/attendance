@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $id_fakultas = $data['id_fakultas'];
                 $id_kelas = $data['id_kelas'];
                 $status = $data['status'];
-                $date = date("Y-m-d");
+                $date = date("Y-m-d H:i:s");
 
                 $stmt->execute([
                     ':npm' => $npm,
@@ -55,12 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php include 'includes/sidebar.php'; ?>
                 <div class="main--content">
                     <div id="messageDiv" class="messageDiv hidden text-center text-green-600 font-bold"> </div>
-                    <p class="text-xl font-semibold text-center text-blue-600 mt-4">Pilih Fakultas dan Kelas sebelum
-                        memulai Presensi</p>
+                    <p class="text-xl font-semibold text-center text-blue-600 mt-4">Select Faculty and Class before starting Presence</p>
                     <form class="lecture-options flex justify-center gap-4 mt-6" id="selectForm">
                         <select required name="fakultas" id="fakultas" class="border border-gray-300 rounded-md p-2"
                             onChange="updateTable()">
-                            <option value="" selected>Select Fakultas</option>
+                            <option value="" selected>Select Faculty</option>
                             <?php
                             $namaFakultas = getFakultas();
                             foreach ($namaFakultas as $fakultas) {
@@ -71,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <select required name="kelas" id="kelas" class="border border-gray-300 rounded-md p-2"
                             onChange="updateTable()">
-                            <option value="" selected>Select Kelas</option>
+                            <option value="" selected>Select Class</option>
                             <?php
                             $namaKelas = getKelas();
                             foreach ($namaKelas as $kelas) {
@@ -82,10 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </form>
                     <div class="attendance-button flex justify-center gap-4 mt-6">
                         <button id="startButton"
-                            class="px-4 py-2 bg-blue-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out hover:bg-blue-700">Mulai
-                            Presensi</button>
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out hover:bg-blue-700">Start Presence</button>
                         <button id="endAttendance"
-                            class="px-4 py-2 bg-blue-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out hover:bg-blue-700">Selesai</button>
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out hover:bg-blue-700">End Presence</button>
                     </div>
 
                     <!-- Video Container -->

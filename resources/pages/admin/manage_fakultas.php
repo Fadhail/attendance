@@ -27,7 +27,7 @@ if (isset($_POST["addFakultas"])) {
 <head>  
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>Manage Fakultas</title>  
+    <title>Manage Faculty</title>  
     <script>  
         function toggleForm() {  
             const form = document.getElementById('tambahFakultas');  
@@ -46,20 +46,20 @@ if (isset($_POST["addFakultas"])) {
             <button onclick="toggleForm()"  
                 class="mb-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Tambah Fakultas</button>  
             <form id="tambahFakultas" method="POST" action="" class="space-y-6 hidden">  
-                <h2 class="text-2xl font-semibold text-gray-700 mb-4">Tambah Fakultas</h2>  
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4">Add Faculty</h2>  
                 <div>  
-                    <label for="id_fakultas" class="block text-sm font-medium text-gray-700">ID Fakultas</label>  
+                    <label for="id_fakultas" class="block text-sm font-medium text-gray-700">Faculty ID</label>  
                     <input type="text" id="id_fakultas" name="id_fakultas" required  
                         class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">  
                 </div>  
                 <div>  
-                    <label for="nama_fakultas" class="block text-sm font-medium text-gray-700">Nama Fakultas</label>  
+                    <label for="nama_fakultas" class="block text-sm font-medium text-gray-700">Faculty Name</label>  
                     <input type="text" id="nama_fakultas" name="nama_fakultas" required  
                         class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">  
                 </div>  
                 <div>  
                     <button type="submit" name="addFakultas"  
-                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">Tambahkan</button>  
+                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">Add</button>  
                 </div>  
             </form>  
   
@@ -68,8 +68,8 @@ if (isset($_POST["addFakultas"])) {
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">  
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">  
                         <tr>  
-                            <th scope="col" class="py-3 px-6">ID Fakultas</th>  
-                            <th scope="col" class="py-3 px-6">Nama Fakultas</th>  
+                            <th scope="col" class="py-3 px-6">Faculty ID</th>  
+                            <th scope="col" class="py-3 px-6">Faculty Name</th>  
                             <th scope="col" class="py-3 px-6">Action</th>  
                         </tr>  
                     </thead>  

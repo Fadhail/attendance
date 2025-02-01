@@ -18,7 +18,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">  
                 <!-- Total Mahasiswa -->  
                 <div class="bg-blue-100 p-4 rounded-lg shadow-md">  
-                    <h3 class="text-lg font-semibold">Total Mahasiswa</h3>  
+                    <h3 class="text-lg font-semibold">Total Students</h3>  
                     <p class="text-2xl font-bold text-blue-600">  
                         <?php  
                         // Menghitung total mahasiswa  
@@ -30,7 +30,7 @@
   
                 <!-- Total Dosen -->  
                 <div class="bg-green-100 p-4 rounded-lg shadow-md">  
-                    <h3 class="text-lg font-semibold">Total Dosen</h3>  
+                    <h3 class="text-lg font-semibold">Total Lecturers</h3>  
                     <p class="text-2xl font-bold text-green-600">  
                         <?php  
                         // Menghitung total dosen  
@@ -42,7 +42,7 @@
   
                 <!-- Total Kelas -->  
                 <div class="bg-yellow-100 p-4 rounded-lg shadow-md">  
-                    <h3 class="text-lg font-semibold">Total Kelas</h3>  
+                    <h3 class="text-lg font-semibold">Total Class</h3>  
                     <p class="text-2xl font-bold text-yellow-600">  
                         <?php  
                         // Menghitung total kelas  
@@ -54,7 +54,7 @@
   
                 <!-- Total Fakultas -->  
                 <div class="bg-red-100 p-4 rounded-lg shadow-md">  
-                    <h3 class="text-lg font-semibold">Total Fakultas</h3>  
+                    <h3 class="text-lg font-semibold">Total Faculty</h3>  
                     <p class="text-2xl font-bold text-red-600">  
                         <?php  
                         // Menghitung total fakultas  
@@ -67,13 +67,13 @@
   
             <!-- Tabel Data (Optional) -->  
             <div class="mt-8">  
-                <h3 class="text-lg font-semibold mb-4">Data Mahasiswa</h3>  
+                <h3 class="text-lg font-semibold mb-4">Student's</h3>  
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">  
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">  
                         <tr>  
                             <th scope="col" class="py-3 px-6">NPM</th>  
-                            <th scope="col" class="py-3 px-6">Nama</th>  
-                            <th scope="col" class="py-3 px-6">NO Telepon</th>  
+                            <th scope="col" class="py-3 px-6">Name</th>  
+                            <th scope="col" class="py-3 px-6">Phne Number</th>  
                             <th scope="col" class="py-3 px-6">Email</th>  
                             <th scope="col" class="py-3 px-6">Action</th>  
                         </tr>  

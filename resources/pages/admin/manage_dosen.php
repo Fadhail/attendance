@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set("Asia/Jakarta");
 
 if (isset($_POST["addLecture"])) {
     $nidn = htmlspecialchars(trim($_POST["nidn"]));
@@ -6,7 +7,7 @@ if (isset($_POST["addLecture"])) {
     $lastName = htmlspecialchars(trim($_POST["last_name"]));
     $phone_no = htmlspecialchars(trim($_POST["phone_no"]));
     $email = filter_var(trim($_POST["email"]), FILTER_VALIDATE_EMAIL);
-    $created_at = date("Y-m-d");
+    $created_at = date("Y-m-d H:i:s");
     $password = $_POST['password'];
 
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
@@ -49,7 +50,7 @@ if (isset($_POST["addLecture"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Dosen</title>
+    <title>Manage Lecturers</title>
     <script>
         function toggleForm() {
             const form = document.getElementById('tambahDosen');
@@ -114,8 +115,8 @@ if (isset($_POST["addLecture"])) {
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="py-3 px-6">NIDN</th>
-                            <th scope="col" class="py-3 px-6">Nama</th>
-                            <th scope="col" class="py-3 px-6">NO Telepon</th>
+                            <th scope="col" class="py-3 px-6">Name</th>
+                            <th scope="col" class="py-3 px-6">Phone Number</th>
                             <th scope="col" class="py-3 px-6">Email</th>
                             <th scope="col" class="py-3 px-6">Created At</th>
                             <th scope="col" class="py-3 px-6">Action</th>

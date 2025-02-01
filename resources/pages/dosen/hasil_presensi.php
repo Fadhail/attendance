@@ -5,7 +5,7 @@
             <form method="GET" action="">
                 <!-- Pilih Fakultas -->
                 <select required name="id_fakultas" id="fakultas" onchange="this.form.submit()">
-                    <option value="" selected>Select Fakultas</option>
+                    <option value="" selected>Select Faculty</option>
                     <?php
                     $fakultasList = fetch("SELECT * FROM fakultas");
                     foreach ($fakultasList as $fakultas) {
@@ -17,7 +17,7 @@
 
                 <!-- Pilih Kelas -->
                 <select required name="id_kelas" id="kelas" onchange="this.form.submit()">
-                    <option value="" selected>Select Kelas</option>
+                    <option value="" selected>Select Class</option>
                     <?php
                     $kelasList = fetch("SELECT * FROM kelas");
                     foreach ($kelasList as $kelas) {
@@ -37,10 +37,11 @@
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="py-3 px-6">Nama</th>
+                            <th scope="col" class="py-3 px-6">Name</th>
                             <th scope="col" class="py-3 px-6">NPM</th>
-                            <th scope="col" class="py-3 px-6">Fakultas</th>
-                            <th scope="col" class="py-3 px-6">Kelas</th>
+                            <th scope="col" class="py-3 px-6">Faculty</th>
+                            <th scope="col" class="py-3 px-6">Class</th>
+                            <th scope="col" class="py-3 px-6">Date</th>
                             <th scope="col" class="py-3 px-6">Status</th>
                         </tr>
                     </thead>
@@ -60,6 +61,7 @@
                                     WHERE p.id_fakultas = :id_fakultas AND p.id_kelas = :id_kelas AND DATE(p.created_at) = :tanggal";
 
                             $stmt = $pdo->prepare($sql);
+                            $tanggal = date('Y-m-d H:i:s', strtotime($tanggal));
                             $stmt->execute(['id_fakultas' => $id_fakultas, 'id_kelas' => $id_kelas, 'tanggal' => $tanggal]);
                             $result = $stmt->fetchAll();
 
@@ -69,6 +71,7 @@
                                 echo '<td class="py-3 px-6">' . $row['npm'] . '</td>';
                                 echo '<td class="py-3 px-6">' . $row['nama_fakultas'] . '</td>';
                                 echo '<td class="py-3 px-6">' . $row['nama_kelas'] . '</td>';
+                                echo '<td class="py-3 px-6">' . $tanggal . '</td>';
                                 echo '<td class="py-3 px-6">' . $row['status'] . '</td>';
                                 echo '</tr>';
                             }

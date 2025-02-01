@@ -49,7 +49,7 @@ if (isset($_GET['npm'])) {
 
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Profile Mahasiswa</h2>
+        <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Student Detail</h2>
 
         <div class="flex justify-center mb-6">
             <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300">
@@ -89,14 +89,14 @@ if (isset($_GET['npm'])) {
             </div>
 
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Fakultas:</label>
+                <label class="block text-sm font-medium text-gray-700">Faculty:</label>
                 <p class="mt-1">
                     <?= htmlspecialchars($fakultas); ?>
                 </p>
             </div>
 
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Kelas:</label>
+                <label class="block text-sm font-medium text-gray-700">Class:</label>
                 <p class="mt-1">
                     <?= htmlspecialchars($kelas); ?>
                 </p>

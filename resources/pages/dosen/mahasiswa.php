@@ -5,7 +5,7 @@
             <form method="GET" action="">
                 <!-- Pilih Fakultas -->
                 <select required name="id_fakultas" id="fakultas" onchange="this.form.submit()">
-                    <option value="" selected>Select Fakultas</option>
+                    <option value="" selected>Select Faculty</option>
                     <?php
                     // Fetch all fakultas
                     $fakultasList = fetch("SELECT * FROM fakultas");
@@ -19,7 +19,7 @@
 
                 <!-- Pilih Kelas -->
                 <select required name="id_kelas" id="kelas" onchange="this.form.submit()">
-                    <option value="" selected>Select Kelas</option>
+                    <option value="" selected>Select Class</option>
                     <?php
                     // Fetch all kelas
                     $kelasList = fetch("SELECT * FROM kelas");
@@ -38,8 +38,8 @@
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="py-3 px-6">NPM</th>
-                            <th scope="col" class="py-3 px-6">Nama</th>
-                            <th scope="col" class="py-3 px-6">NO Telepon</th>
+                            <th scope="col" class="py-3 px-6">Name</th>
+                            <th scope="col" class="py-3 px-6">Phone Number</th>
                             <th scope="col" class="py-3 px-6">Email</th>
                             <th scope="col" class="py-3 px-6">Action</th>
                         </tr>

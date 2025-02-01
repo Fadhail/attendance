@@ -2,6 +2,12 @@
 
 use PHPUnit\Framework\TestCase;
 
+class MockPDO extends PDO {
+    public function __construct() {}
+    public function setAttribute($attribute, $value) {}
+    public function exec($statement) {}
+}
+
 class DetailMahasiswaTest extends TestCase
 {
     private $pdo;
@@ -44,12 +50,12 @@ class DetailMahasiswaTest extends TestCase
     public function testGetMahasiswaDetails()
     {
         $_GET['npm'] = '12345';
-
+        $GLOBALS['pdo'] = new MockPDO(); 
         $pdo = $this->pdo;
 
         ob_start();
         $GLOBALS['pdo'] = $pdo; 
-        include '../../resources/pages/dosen/detail_mahasiswa.php';
+        include 'resources/pages/dosen/detail_mahasiswa.php';
         $output = ob_get_clean();
 
         $this->assertStringContainsString('12345', $output);

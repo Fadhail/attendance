@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set("Asia/Jakarta");
 
 if (isset($_POST["tambahMahasiswa"])) {
     $npm = $_POST['npm'];
@@ -8,9 +9,9 @@ if (isset($_POST["tambahMahasiswa"])) {
     $email = $_POST['email'];
     $fakultas = $_POST['id_fakultas'];
     $kelas = $_POST['id_kelas'];
-    $created_at = date("Y-m-d");
+    $created_at = date('Y-m-d H:i:s');
 
-    $image = []; // Corrected variable name
+    $image = [];
 
     // Save images
     $folderPath = "resources/labels/{$npm}/";
@@ -62,6 +63,8 @@ if (isset($_POST["tambahMahasiswa"])) {
         $_SESSION['message'] = "Mahasiswa berhasil ditambahkan!";
     }
 }
+
+echo "Created At: " . $created_at . "\n";
 ?>
 
 <!DOCTYPE html>
@@ -70,7 +73,7 @@ if (isset($_POST["tambahMahasiswa"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Mahasiswa</title>
+    <title>Manage Student</title>
     <script src="resources/assets/javascript/admin.js"></script>
 </head>
 
@@ -80,10 +83,9 @@ if (isset($_POST["tambahMahasiswa"])) {
     <div class="p-4 sm:ml-64">
         <div class="overflow-x-auto relative shadow-md sm:rounded-lg bg-white p-6 rounded-lg">
             <button onclick="toggleForm()"
-                class="mb-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Tambahkan
-                Mahasiswa</button>
+                class="mb-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Add Student</button>
             <form id="tambahMahasiswa" method="POST" enctype="multipart/form-data" class="space-y-6 hidden">
-                <h2 class="text-2xl font-semibold text-gray-700 mb-4">Add New Mahasiswa</h2>
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4">Add New Student</h2>
                 <!-- Existing fields -->
                 <div>
                     <label for="npm" class="block text-sm font-medium text-gray-700">NPM:</label>
@@ -111,7 +113,7 @@ if (isset($_POST["tambahMahasiswa"])) {
                         class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                 </div>
                 <select required name="id_fakultas">
-                    <option value="" selected>Pilih Fakultas</option>
+                    <option value="" selected>Select Faculty</option>
                     <?php
                     $nama_fakultas = fetch("SELECT * FROM fakultas");
                     foreach ($nama_fakultas as $fakultas) {
@@ -120,7 +122,7 @@ if (isset($_POST["tambahMahasiswa"])) {
                     ?>
                 </select>
                 <select required name="id_kelas">
-                    <option value="" selected>Pilih Kelas</option>
+                    <option value="" selected>Select Class</option>
                     <?php
                     $nama_kelas = fetch("SELECT * FROM kelas");
                     foreach ($nama_kelas as $kelas) {
@@ -133,12 +135,12 @@ if (isset($_POST["tambahMahasiswa"])) {
                     <div class="camera-section">
                         <video id="camera" autoplay class="w-sm rounded-md border shadow"></video>
                         <canvas id="canvas" style="display: none;"></canvas>
-                        <p class="text-gray-700 mb-2 mt-2"><i>*Ambil 5 Gambar</i></p>
+                        <p class="text-gray-700 mb-2 mt-2"><i>*Take 5 Picture</i></p>
                         <button type="button" onclick="captureImage()"
-                            class="mt-2 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Ambil Gambar</button>
+                            class="mt-2 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600">Take a Picture</button>
                     </div>
                     <div class="results-section mt-4">
-                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Hasil :</h3>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Results:</h3>
                         <div id="images" class="flex gap-2 overflow-x-auto">
                         </div>
                         <input type="hidden" name="capturedImage1" id="capturedImage1">
@@ -151,8 +153,7 @@ if (isset($_POST["tambahMahasiswa"])) {
 
                 <div>
                     <button type="submit" name="tambahMahasiswa" id="submitBtn" disabled
-                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">Save
-                        Mahasiswa</button>
+                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">Save</button>
                 </div>
             </form>
   
@@ -162,10 +163,10 @@ if (isset($_POST["tambahMahasiswa"])) {
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">  
                         <tr>  
                             <th scope="col" class="py-3 px-6">NPM</th>  
-                            <th scope="col" class="py-3 px-6">Nama</th>  
-                            <th scope="col" class="py-3 px-6">Kelas</th>  
-                            <th scope="col" class="py-3 px-6">Fakultas</th>  
-                            <th scope="col" class="py-3 px-6">NO Telepon</th>  
+                            <th scope="col" class="py-3 px-6">Name</th>  
+                            <th scope="col" class="py-3 px-6">Class</th>  
+                            <th scope="col" class="py-3 px-6">Faculty</th>  
+                            <th scope="col" class="py-3 px-6">Phone Number</th>  
                             <th scope="col" class="py-3 px-6">Email</th>  
                             <th scope="col" class="py-3 px-6">Created At</th>  
                             <th scope="col" class="py-3 px-6">Action</th>  

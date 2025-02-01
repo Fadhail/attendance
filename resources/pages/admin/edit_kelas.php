@@ -22,12 +22,12 @@ if (isset($_GET['id_kelas'])) {
             $id_kelas = $kelas['id_kelas'];      
         } else {    
             $_SESSION['message'] = "Kelas tidak ditemukan.";    
-            header("Location: ../../../manage_kelas"); // Redirect jika tidak ditemukan    
+            header("Location: ../../../manage_kelas");
             exit();    
         }      
     } catch (PDOException $e) {      
         $_SESSION['message'] = "Error loading data kelas: " . $e->getMessage();      
-        header("Location: ../../../manage_kelas"); // Redirect jika terjadi error    
+        header("Location: ../../../manage_kelas");   
         exit();    
     }      
 }      
@@ -69,34 +69,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["updateKelas"])) {
 <head>      
     <meta charset="UTF-8">      
     <meta name="viewport" content="width=device-width, initial-scale=1.0">      
-    <title>Update Kelas</title>      
+    <title>Edit Kelas</title>      
     <link rel="stylesheet" href="resources/assets/css/output.css">      
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />      
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>      
 </head>      
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Edit Kelas</h2>    
+        <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Edit Class</h2>    
    
       
             <form id="updateKelas" method="POST" action="" class="space-y-6">      
                 <div>      
-                    <label for="id_kelas" class="block text-sm font-medium text-gray-700">ID Kelas</label>      
+                    <label for="id_kelas" class="block text-sm font-medium text-gray-700">Class ID</label>      
                     <input type="text" id="id_kelas" name="id_kelas" value="<?= htmlspecialchars($id_kelas); ?>" required        
                         class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">      
                 </div>      
       
                 <div>      
-                    <label for="nama_kelas" class="block text-sm font-medium text-gray-700">Nama Kelas</label>      
+                    <label for="nama_kelas" class="block text-sm font-medium text-gray-700">Select Class</label>      
                     <input type="text" id="nama_kelas" name="nama_kelas" value="<?= htmlspecialchars($nama_kelas); ?>" required      
                            class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">      
                 </div>      
       
                 <div>      
-                    <label for="id_dosen" class="block text-sm font-medium text-gray-700">Pilih Dosen</label>      
+                    <label for="id_dosen" class="block text-sm font-medium text-gray-700">Selcet Lecture</label>      
                     <select id="id_dosen" name="id_dosen" required      
                             class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">      
-                        <option value="" <?= empty($id_dosen) ? 'selected' : ''; ?>>Pilih Dosen</option>      
+                        <option value="" <?= empty($id_dosen) ? 'selected' : ''; ?>>Select Lecture</option>      
                         <?php      
                         try {      
                             $nama_dosen = $pdo->query("SELECT * FROM dosen");      
@@ -120,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["updateKelas"])) {
                 </button>
                 <a href="../../../manage_kelas"
                    class="w-full bg-gray-400 text-white py-2 px-4 rounded-md hover:bg-gray-500 text-center focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
-                    Kemabli
+                    Back
                 </a>
             </div>    
         </form>        

@@ -30,7 +30,7 @@ if (isset($_POST["addKelas"])) {
 <head>  
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>Manage Kelas</title>  
+    <title>Manage Class</title>  
     <script>  
         function toggleForm() {  
             const form = document.getElementById('tambahKelas');  
@@ -51,24 +51,24 @@ if (isset($_POST["addKelas"])) {
     <div class="p-4 sm:ml-64">  
         <div class="overflow-x-auto relative shadow-md sm:rounded-lg bg-white p-6 rounded-lg">  
             <button onclick="toggleForm()"  
-                class="mb-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Tambah Kelas</button>  
+                class="mb-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Add Class</button>  
             <form id="tambahKelas" method="POST" action="" class="space-y-6 hidden">  
-                <h2 class="text-2xl font-semibold text-gray-700 mb-4">Tambah Kelas</h2>  
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4">Add Class</h2>  
                 <div>  
-                    <label for="id_kelas" class="block text-sm font-medium text-gray-700">ID Kelas</label>  
+                    <label for="id_kelas" class="block text-sm font-medium text-gray-700"> Class ID</label>  
                     <input type="text" id="id_kelas" name="id_kelas" required  
                         class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">  
                 </div>  
                 <div>  
-                    <label for="nama_kelas" class="block text-sm font-medium text-gray-700">Nama Kelas</label>  
+                    <label for="nama_kelas" class="block text-sm font-medium text-gray-700">Class Name</label>  
                     <input type="text" id="nama_kelas" name="nama_kelas" required  
                         class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">  
                 </div>  
                 <div>  
-                    <label for="id_dosen" class="block text-sm font-medium text-gray-700">Pilih Dosen</label>  
+                    <label for="id_dosen" class="block text-sm font-medium text-gray-700">Select Lecture</label>  
                     <select id="id_dosen" name="id_dosen" required  
                         class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">  
-                        <option value="" selected>Pilih Dosen</option>  
+                        <option value="" selected>Select Lecture</option>  
                         <?php  
                         $nama_dosen = fetch("SELECT * FROM dosen");  
                         foreach ($nama_dosen as $dosen) {  
@@ -79,7 +79,7 @@ if (isset($_POST["addKelas"])) {
                 </div>  
                 <div>  
                     <button type="submit" name="addKelas"  
-                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">Tambahkan</button>  
+                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">Add</button>  
                 </div>  
             </form>  
   
@@ -88,9 +88,9 @@ if (isset($_POST["addKelas"])) {
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">  
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">  
                         <tr>  
-                            <th scope="col" class="py-3 px-6">ID Kelas</th>  
-                            <th scope="col" class="py-3 px-6">Nama Kelas</th>  
-                            <th scope="col" class="py-3 px-6">Dosen</th>  
+                            <th scope="col" class="py-3 px-6">Class ID</th>  
+                            <th scope="col" class="py-3 px-6">Class Name</th>  
+                            <th scope="col" class="py-3 px-6">Lecture</th>  
                             <th scope="col" class="py-3 px-6">Action</th>  
                         </tr>  
                     </thead>  

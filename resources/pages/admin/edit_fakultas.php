@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["updateFakultas"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Fakultas</title>
+    <title>Edit Faculty</title>
     <link rel="stylesheet" href="resources/assets/css/output.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
@@ -73,18 +73,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["updateFakultas"])) {
 
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Edit Dosen</h2>
+        <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Edit Faculty</h2>
         <form id="updateFakultas" method="POST" action="" class="space-y-6">
 
             <div>
-                <label for="id_fakultas" class="block text-sm font-medium text-gray-700">ID Fakultas</label>
+                <label for="id_fakultas" class="block text-sm font-medium text-gray-700">Faculty ID</label>
                 <input type="text" id="id_fakultas" name="id_fakultas" value="<?= htmlspecialchars($id_fakultas); ?>"
                     required readonly
                     class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
             </div>
 
             <div>
-                <label for="nama_fakultas" class="block text-sm font-medium text-gray-700">Nama Fakultas</label>
+                <label for="nama_fakultas" class="block text-sm font-medium text-gray-700">Faculty Name</label>
                 <input type="text" id="nama_fakultas" name="nama_fakultas"
                     value="<?= htmlspecialchars($nama_fakultas); ?>" required
                     class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["updateFakultas"])) {
             <div class="flex space-x-4">
                 <button type="submit" name="updateFakultas"
                     class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
-                    Update Fakultas
+                    Update Faculty
                 </button>
                 <a href="../../../manage_fakultas"
                     class="w-full bg-gray-400 text-white py-2 px-4 rounded-md hover:bg-gray-500 text-center focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
