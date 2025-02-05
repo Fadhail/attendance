@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set("Asia/Jakarta");
 
 require_once "../../../database/koneksi.php";
 require_once "../../functions/functions.php";
@@ -18,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $id_fakultas = $data['id_fakultas'];
                 $id_kelas = $data['id_kelas'];
                 $status = $data['status'];
-                $created_at = date("Y-m-d");
+                $created_at = date("Y-m-d H:i:s");
 
                 $stmt->execute([
                     ':npm' => $npm,

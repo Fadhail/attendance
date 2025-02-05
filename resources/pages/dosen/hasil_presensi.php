@@ -42,11 +42,14 @@
                             <th scope="col" class="py-3 px-6">Faculty</th>
                             <th scope="col" class="py-3 px-6">Class</th>
                             <th scope="col" class="py-3 px-6">Date</th>
+                            <th scope="col" class="py-3 px-6">Time</th>
                             <th scope="col" class="py-3 px-6">Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
+                        date_default_timezone_set("Asia/Jakarta");
+
                         if (isset($_GET['id_fakultas']) && isset($_GET['id_kelas']) && isset($_GET['tanggal'])) {
                             $id_fakultas = $_GET['id_fakultas'];
                             $id_kelas = $_GET['id_kelas'];
@@ -71,7 +74,8 @@
                                 echo '<td class="py-3 px-6">' . $row['npm'] . '</td>';
                                 echo '<td class="py-3 px-6">' . $row['nama_fakultas'] . '</td>';
                                 echo '<td class="py-3 px-6">' . $row['nama_kelas'] . '</td>';
-                                echo '<td class="py-3 px-6">' . $tanggal . '</td>';
+                                echo '<td class="py-3 px-6">' . date('j F Y', strtotime($row['created_at'])) . '</td>';
+                                echo '<td class="py-3 px-6">' . date('H:i:s', strtotime($row['created_at'])) . '</td>';
                                 echo '<td class="py-3 px-6">' . $row['status'] . '</td>';
                                 echo '</tr>';
                             }

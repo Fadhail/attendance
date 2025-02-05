@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set("Asia/Jakarta");
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $attendanceData = json_decode(file_get_contents("php://input"), true);
     if ($attendanceData) {
